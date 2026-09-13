@@ -34,3 +34,25 @@ Laboratório prático focado em centralização de eventos, correlação de logs
   * Mapeamento de contas e privilégios locais para identificação de possíveis alvos de elevação de privilégio.
   * O Sysmon coletou a chamada do processo pai (`cmd.exe`) chamando o binário `net.exe`.
   * O SIEM registrou o comportamento com a **Regra 92031 (Nível 3 - Informativo)** para manter o rastreamento da sessão do usuário.
+ 
+ ## Automação e Resposta Ativa (Active Response)
+
+Para automatizar a contenção de ameaças sem necessidade de intervenção manual, o arquivo de configuração do Wazuh Manager (`/var/ossec/etc/ossec.conf`) foi editado para disparar o script de bloqueio de rede via Windows Firewall (`netsh`):
+
+### 1. Configuração do Gatilho no Manager
+```xml
+<active-response>
+  <command>netsh</command>
+  <location>local</location>
+  <rules_id>92075, 63103</rules_id>
+  <timeout>60</timeout>
+</active-response>
+```
+
+### 2. Validação da Mitigação Automática
+
+Ao identificar os comportamentos maliciosos configurados, o Wazuh Manager acionou autonomamente a regra de resposta ativa no host:
+
+![Disparo da Resposta Ativa](img/05-resposta-incidente.png)
+
+![Execução do Script Netsh](img/06-exec-script-response.png)

@@ -34,9 +34,22 @@ Laboratório prático focado em centralização de eventos, correlação de logs
   * Mapeamento de contas e privilégios locais para identificação de possíveis alvos de elevação de privilégio.
   * O Sysmon coletou a chamada do processo pai (`cmd.exe`) chamando o binário `net.exe`.
   * O SIEM registrou o comportamento com a **Regra 92031 (Nível 3 - Informativo)** para manter o rastreamento da sessão do usuário.
+
+---
+ 
+## EvidÊncias de Execução
+
+### 1. Execução no Endpoint
+![Execução no CMD](img/02-exex-codCmd.png)
+
+### 2. Telemetria e Eventos Coletados no SIEM
+![Cadeia de Eventos no Wazuh](img/03-cadeia-eventos.png)
+![Análise Forense do Log Sysmon](img/04-log-detalhado.png)
+
+---
  
  ## Automação e Resposta Ativa (Active Response)
-
+---
 Para automatizar a contenção de ameaças sem necessidade de intervenção manual, o arquivo de configuração do Wazuh Manager (`/var/ossec/etc/ossec.conf`) foi editado para disparar o script de bloqueio de rede via Windows Firewall (`netsh`):
 
 ### 1. Configuração do Gatilho no Manager
@@ -48,6 +61,7 @@ Para automatizar a contenção de ameaças sem necessidade de intervenção manu
   <timeout>60</timeout>
 </active-response>
 ```
+---
 
 ### 2. Validação da Mitigação Automática
 
@@ -56,3 +70,7 @@ Ao identificar os comportamentos maliciosos configurados, o Wazuh Manager aciono
 ![Disparo da Resposta Ativa](img/05-resposta-incidente.png)
 
 ![Execução do Script Netsh](img/06-exec-script-response.png)
+
+# Conclusão
+
+**A integração entre a telemetria do Sysmon e o motor de correlação do Wazuh SIEM permitiu mapear com precisão táticas de evasão e execução de LOLBins. A implementação do Active Response reduziu o Tempo Médio de Resposta (MTTR) de minutos para 0 segundos, realizando a contenção do vetor de ameaça na camada de rede local sem necessidade de intervenção humana manual.**

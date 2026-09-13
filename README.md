@@ -28,7 +28,7 @@ Laboratório prático focado em centralização de eventos, correlação de logs
 
 ---
  
-## EvidÊncias de Execução
+## Evidências de Execução
 
 ### 1. Execução no Endpoint
 ![Execução no CMD](img/02-exex-codCmd.png)
